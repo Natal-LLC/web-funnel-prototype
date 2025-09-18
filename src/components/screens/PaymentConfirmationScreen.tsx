@@ -15,29 +15,63 @@ export function PaymentConfirmationScreen({ stage }: ConfirmationScreenProps) {
           emoji: '✅',
           title: 'Payment Confirmed!',
           subtitle: 'Your TTC program is ready. Let\'s get you set up in the app.',
-          programName: 'TTC program'
+          programName: 'TTC Program',
+          features: [
+            'Personalized daily guidance',
+            'Fertility tracking & insights',
+            'Expert nutrition plans',
+            'Community support'
+          ]
         };
       case 'pregnancy':
         return {
           emoji: '✅',
           title: 'Payment Confirmed!',
           subtitle: 'Your pregnancy program is ready. Let\'s get you set up in the app.',
-          programName: 'pregnancy program'
+          programName: 'Pregnancy Program',
+          features: [
+            'Weekly pregnancy guidance',
+            'Nutrition & exercise plans',
+            'Expert support community',
+            'Progress tracking'
+          ]
         };
       case 'postpartum':
         return {
           emoji: '✅',
           title: 'Payment Confirmed!',
           subtitle: 'Your postpartum program is ready. Let\'s get you set up in the app.',
-          programName: 'postpartum program'
+          programName: 'Postpartum Program',
+          features: [
+            'Recovery & healing guidance',
+            'New mom support community',
+            'Expert nutrition plans',
+            'Wellness tracking'
+          ]
         };
       default:
         return {
           emoji: '✅',
           title: 'Payment Confirmed!',
           subtitle: 'Your program is ready. Let\'s get you set up in the app.',
-          programName: 'program'
+          programName: 'Program',
+          features: [
+            'Personalized daily guidance',
+            'Expert support community',
+            'Comprehensive resources',
+            'Progress tracking'
+          ]
         };
+    }
+  };
+
+  const handleAppDownload = (platform: 'ios' | 'android') => {
+    if (platform === 'ios') {
+      // iOS App Store link
+      window.open('https://apps.apple.com/us/app/natal-pregnancy-postpartum/id6596773195', '_blank');
+    } else {
+      // Google Play Store link
+      window.open('https://play.google.com/store/apps/details?id=com.natalllc.prod&hl=en_US', '_blank');
     }
   };
 
@@ -57,37 +91,39 @@ export function PaymentConfirmationScreen({ stage }: ConfirmationScreenProps) {
           </p>
         </div>
         
-        {/* Next Steps Card - Compact */}
-        <div className="flex-1 px-4 pb-4">
-          <MobileCard className="h-full flex items-center justify-center">
+        {/* App Features - Compact */}
+        <div className="px-4 pb-4">
+          <MobileCard className="p-4">
             <div className="text-center">
-              <h2 className="text-lg font-semibold mb-3">What's Next?</h2>
-              <div className="space-y-3 text-left">
-                <div className="flex items-start">
-                  <span className="w-5 h-5 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">1</span>
-                  <span className="text-sm">Download our mobile app</span>
-                </div>
-                <div className="flex items-start">
-                  <span className="w-5 h-5 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">2</span>
-                  <span className="text-sm">Complete your profile setup</span>
-                </div>
-                <div className="flex items-start">
-                  <span className="w-5 h-5 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">3</span>
-                  <span className="text-sm">Start your {stage === 'ttc' ? 'TTC' : stage === 'pregnancy' ? 'pregnancy' : 'postpartum'} journey</span>
-                </div>
+              <h2 className="text-lg font-semibold mb-3">Your {content.programName} Awaits</h2>
+              <div className="space-y-2 text-left">
+                {content.features.map((feature, index) => (
+                  <div key={index} className="flex items-center">
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
+                    <span className="text-xs">{feature}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </MobileCard>
         </div>
 
-        {/* Download Button - Bottom */}
+        {/* Download Buttons - Compact */}
         <div className="px-4 pb-4">
-          <MobileButton 
-            size="lg"
-            onClick={() => window.location.href = `/app-download?stage=${stage}`}
-          >
-            Download App
-          </MobileButton>
+          <div className="space-y-2">
+            <MobileButton 
+              size="lg"
+              onClick={() => handleAppDownload('ios')}
+            >
+              Download for iOS
+            </MobileButton>
+            <MobileButton 
+              size="lg"
+              onClick={() => handleAppDownload('android')}
+            >
+              Download for Android
+            </MobileButton>
+          </div>
         </div>
       </div>
     </MobileLayout>

@@ -7,8 +7,7 @@ import {
   TTCCongratulations, 
   TTCClaimOffer, 
   TTCChoosePlan, 
-  TTCConfirmation, 
-  TTCAppDownload 
+  TTCConfirmation
 } from './TTCFlow';
 import { ProgramKnowledgeQuestion } from './ProgramKnowledgeQuestion';
 import { ProgramSelection } from './ProgramSelection';
@@ -41,9 +40,6 @@ export function FunnelRouter() {
       
       case 'ttc-confirmation':
         return <TTCConfirmation />;
-      
-      case 'ttc-app-download':
-        return <TTCAppDownload />;
       
       case 'program-knowledge':
         return <ProgramKnowledgeQuestion />;

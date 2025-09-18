@@ -1,6 +1,6 @@
 'use client';
 
-import { MobileLayout, MobileCard } from '@/components/ui/MobileLayout';
+import { MobileLayout, MobileCard, MobileButton } from '@/components/ui/MobileLayout';
 import { Stage } from '@/types';
 
 export function StageSelectionScreen() {
@@ -22,21 +22,20 @@ export function StageSelectionScreen() {
   return (
     <MobileLayout>
       <div className="flex flex-col h-full">
-        {/* Header - Compact */}
-        <div className="text-center px-4 pt-6 pb-4">
-          <h1 className="text-xl font-bold text-foreground mb-2 leading-tight">
-            Welcome to Your Wellness Journey
+        {/* Header - More Compact */}
+        <div className="text-center px-4 pt-4 pb-3">
+          <h1 className="text-xl font-bold text-foreground mb-1 leading-tight">
+            Welcome to nātal 
           </h1>
           <p className="text-sm text-muted-foreground">
-            Let's find the perfect program for your stage
-          </p>
-        </div>
+            Let's find the perfect program for you! <br /> Choose from one of the following options to get started.</p>
+        </div>  
         
-        {/* Stage Selection Cards - Compact and Responsive */}
+        {/* Stage Selection Cards - More Compact */}
         <div className="flex-1 px-4 pb-4">
-          <div className="space-y-2 h-full flex flex-col">
+          <div className="space-y-3 flex flex-col justify-center min-h-0">
             <MobileCard 
-              className="flex-1 cursor-pointer hover:shadow-lg transition-all duration-200 active:scale-95 border-2 border-transparent hover:border-primary flex items-center justify-center"
+              className="cursor-pointer hover:shadow-lg transition-all duration-200 active:scale-95 border-2 border-transparent hover:border-primary flex items-center justify-center py-6"
               onClick={() => handleStageSelection('ttc')}
             >
               <div className="text-center">
@@ -52,7 +51,7 @@ export function StageSelectionScreen() {
             </MobileCard>
 
             <MobileCard 
-              className="flex-1 cursor-pointer hover:shadow-lg transition-all duration-200 active:scale-95 border-2 border-transparent hover:border-primary flex items-center justify-center"
+              className="cursor-pointer hover:shadow-lg transition-all duration-200 active:scale-95 border-2 border-transparent hover:border-primary flex items-center justify-center py-6"
               onClick={() => handleStageSelection('pregnancy')}
             >
               <div className="text-center">
@@ -68,7 +67,7 @@ export function StageSelectionScreen() {
             </MobileCard>
 
             <MobileCard 
-              className="flex-1 cursor-pointer hover:shadow-lg transition-all duration-200 active:scale-95 border-2 border-transparent hover:border-primary flex items-center justify-center"
+              className="cursor-pointer hover:shadow-lg transition-all duration-200 active:scale-95 border-2 border-transparent hover:border-primary flex items-center justify-center py-6"
               onClick={() => handleStageSelection('postpartum')}
             >
               <div className="text-center">
@@ -83,6 +82,17 @@ export function StageSelectionScreen() {
               </div>
             </MobileCard>
           </div>
+        </div>
+
+        {/* Back to Home Button */}
+        <div className="px-4 pb-6 pt-4">
+          <MobileButton
+            variant="outline"
+            onClick={() => window.location.href = '/'}
+            className="w-full"
+          >
+            Back to Home
+          </MobileButton>
         </div>
       </div>
     </MobileLayout>

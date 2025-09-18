@@ -7,9 +7,10 @@ interface KnowProgramScreenProps {
   stage: Stage;
   trimester?: string;
   dueDate?: string;
+  deliveryDate?: string;
 }
 
-export function KnowProgramScreen({ stage, trimester, dueDate }: KnowProgramScreenProps) {
+export function KnowProgramScreen({ stage, trimester, dueDate, deliveryDate }: KnowProgramScreenProps) {
   const getStageContent = () => {
     switch (stage) {
       case 'pregnancy':
@@ -49,7 +50,11 @@ export function KnowProgramScreen({ stage, trimester, dueDate }: KnowProgramScre
   };
 
   const handleNo = () => {
-    window.location.href = `/${stage}-quiz`;
+    if (stage === 'pregnancy') {
+      window.location.href = `/pregnancy-quiz-landing?dueDate=${dueDate}&trimester=${trimester}`;
+    } else if (stage === 'postpartum') {
+      window.location.href = `/postpartum-quiz-landing?deliveryDate=${deliveryDate}`;
+    }
   };
 
   return (

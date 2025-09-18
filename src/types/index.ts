@@ -7,7 +7,6 @@ export type FunnelStep =
   | 'ttc-claim-offer'
   | 'ttc-choose-plan'
   | 'ttc-confirmation'
-  | 'ttc-app-download'
   | 'know-program'
   | 'program-knowledge'
   | 'program-selection'

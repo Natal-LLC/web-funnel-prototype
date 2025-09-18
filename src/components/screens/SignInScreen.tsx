@@ -6,18 +6,18 @@ export function SignInScreen() {
   const handleDownload = (platform: 'ios' | 'android') => {
     if (platform === 'ios') {
       // iOS App Store link
-      window.open('https://apps.apple.com/app/natal', '_blank');
+      window.open('https://apps.apple.com/us/app/natal-pregnancy-postpartum/id6596773195', '_blank');
     } else {
       // Google Play Store link
-      window.open('https://play.google.com/store/apps/details?id=com.natal.app', '_blank');
+      window.open('https://play.google.com/store/apps/details?id=com.natalllc.prod&hl=en_US', '_blank');
     }
   };
 
   return (
     <MobileLayout>
-      <div className="text-center flex flex-col justify-between h-full">
+      <div className="text-center flex flex-col h-full">
         {/* Header */}
-        <div className="flex-grow flex flex-col justify-center items-center px-4">
+        <div className="flex-1 flex flex-col justify-center items-center px-4 py-4">
           <h1 className="text-3xl font-bold text-foreground mb-4">
             Welcome Back
           </h1>
@@ -74,10 +74,11 @@ export function SignInScreen() {
         </div>
 
         {/* Back to Home */}
-        <div className="mt-8">
+        <div className="px-4 pb-6 pt-4">
           <MobileButton 
             variant="outline"
             onClick={() => window.location.href = '/'}
+            className="w-full"
           >
             Back to Home
           </MobileButton>

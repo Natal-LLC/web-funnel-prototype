@@ -14,8 +14,9 @@ function KnowProgramContent() {
   const stage = (searchParams.get('stage') as Stage) || 'pregnancy';
   const trimester = searchParams.get('trimester') || undefined;
   const dueDate = searchParams.get('dueDate') || undefined;
+  const deliveryDate = searchParams.get('deliveryDate') || undefined;
   
-  return <KnowProgramScreen stage={stage} trimester={trimester} dueDate={dueDate} />;
+  return <KnowProgramScreen stage={stage} trimester={trimester} dueDate={dueDate} deliveryDate={deliveryDate} />;
 }
 
 export default function KnowProgramPage() {

@@ -13,8 +13,7 @@ export function ProgressIndicator({ currentStep }: ProgressIndicatorProps) {
     'ttc-congratulations',
     'ttc-claim-offer',
     'ttc-choose-plan',
-    'ttc-confirmation',
-    'ttc-app-download'
+    'ttc-confirmation'
   ];
 
   const stepLabels: Record<FunnelStep, string> = {
@@ -23,8 +22,7 @@ export function ProgressIndicator({ currentStep }: ProgressIndicatorProps) {
     'ttc-congratulations': 'Congratulations',
     'ttc-claim-offer': 'Special Offer',
     'ttc-choose-plan': 'Choose Plan',
-    'ttc-confirmation': 'Confirmation',
-    'ttc-app-download': 'Download App'
+    'ttc-confirmation': 'Confirmation'
   };
 
   const currentIndex = stepOrder.indexOf(currentStep);

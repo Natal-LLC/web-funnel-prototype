@@ -113,15 +113,13 @@ export function PregnancyOfferScreen({ programs, trimester }: PregnancyOfferScre
 
   const offerContent = {
     emoji: '🎉',
-    title: "You've Unlocked Your Special Pregnancy Offer!",
-    subtitle: `Get exclusive access to ${getProgramText()} for your ${getTrimesterText()}`,
+    title: "Unlock Your Offer!",
+    subtitle: `Receive discounted access to ${getProgramText()} for your ${getTrimesterText()}`,
     programName: 'Exclusive Pregnancy Program',
-    discount: '40% OFF',
+    discount: '66% OFF',
     features: [
       'Personalized pregnancy guidance',
       'Trimester-specific workouts',
-      'Expert nutrition plans',
-      '30-day money-back guarantee'
     ],
     buttonText: 'Claim Your Special Offer'
   };
@@ -161,57 +159,11 @@ export function PregnancyOfferScreen({ programs, trimester }: PregnancyOfferScre
                 </div>
               </div>
 
-              {/* Email Capture Form */}
+              {/* Login Options */}
               <div className="flex-1 flex flex-col justify-end">
-                <form onSubmit={handleEmailSubmit} className="space-y-4">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                      Enter your email to claim this offer
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      value={email}
-                      onChange={handleEmailChange}
-                      placeholder="your@email.com"
-                      className={`w-full px-3 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent ${
-                        emailError ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                      required
-                    />
-                    {emailError && (
-                      <div className="mt-1">
-                        <p className="text-red-500 text-xs">{emailError}</p>
-                        {emailSuggestions.length > 0 && (
-                          <p className="text-blue-600 text-xs mt-1">
-                            💡 {formatEmailSuggestions(emailSuggestions)}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  
-                  <button
-                    type="submit"
-                    disabled={!email.trim() || !validateEmailRealTime(email).isValid || isLoading}
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-lg text-sm font-medium transition-colors"
-                  >
-                    {isLoading ? 'Processing...' : offerContent.buttonText}
-                  </button>
-                </form>
-
-                {/* Social Login Options */}
-                <div className="mt-4">
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-gray-300" />
-                    </div>
-                    <div className="relative flex justify-center text-sm">
-                      <span className="px-2 bg-white text-muted-foreground">or</span>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4 space-y-3">
+                <div className="space-y-4">
+                  {/* Social Login Options - Primary */}
+                  <div className="space-y-3">
                     {/* Google Sign In */}
                     <button
                       type="button"
@@ -238,6 +190,55 @@ export function PregnancyOfferScreen({ programs, trimester }: PregnancyOfferScre
                       </svg>
                       Continue with Apple
                     </button>
+                  </div>
+
+                  {/* Email Option - Secondary */}
+                  <div className="mt-4">
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-300" />
+                      </div>
+                      <div className="relative flex justify-center text-sm">
+                        <span className="px-2 bg-white text-muted-foreground">or</span>
+                      </div>
+                    </div>
+                    
+                    <form onSubmit={handleEmailSubmit} className="mt-4 space-y-4">
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                          Continue with Email
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          value={email}
+                          onChange={handleEmailChange}
+                          placeholder="your@email.com"
+                          className={`w-full px-3 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent ${
+                            emailError ? 'border-red-500' : 'border-gray-300'
+                          }`}
+                          required
+                        />
+                        {emailError && (
+                          <div className="mt-1">
+                            <p className="text-red-500 text-xs">{emailError}</p>
+                            {emailSuggestions.length > 0 && (
+                              <p className="text-blue-600 text-xs mt-1">
+                                💡 {formatEmailSuggestions(emailSuggestions)}
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      
+                      <button
+                        type="submit"
+                        disabled={!email.trim() || !validateEmailRealTime(email).isValid || isLoading}
+                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        {isLoading ? 'Processing...' : 'Continue with Email'}
+                      </button>
+                    </form>
                   </div>
                 </div>
                 

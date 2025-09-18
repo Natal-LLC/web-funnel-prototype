@@ -6,7 +6,7 @@ import { Stage } from '@/types';
 
 interface PaymentFormScreenProps {
   stage: Stage;
-  planType: 'trial' | 'monthly' | 'annual';
+  planType: 'trial' | 'monthly' | 'quarterly' | 'annual';
   email: string;
 }
 
@@ -22,35 +22,45 @@ export function PaymentFormScreen({ stage, planType, email }: PaymentFormScreenP
   const [isLoading, setIsLoading] = useState(false);
 
   const getPlanDetails = () => {
-    const basePricing = {
-      ttc: { monthly: 25, annual: 120, trialDays: 7 },
-      pregnancy: { monthly: 30, annual: 150, trialDays: 7 },
-      postpartum: { monthly: 20, annual: 100, trialDays: 7 }
+    // All stages now have the same pricing structure
+    const pricing = {
+      monthly: 20,
+      quarterly: 45,
+      annual: 120
     };
-
-    const pricing = basePricing[stage] || basePricing.ttc;
 
     switch (planType) {
       case 'trial':
         return {
-          title: 'Free Trial',
-          price: '$0',
-          billing: '7 days free, then $25/month',
-          description: 'Start your free trial'
+          title: 'Monthly Plan',
+          price: '$20',
+          billing: 'per month',
+          description: '3-day free trial, then $20/month',
+          trialNote: 'No payment required today'
+        };
+      case 'quarterly':
+        return {
+          title: 'Quarterly Plan',
+          price: '$45',
+          billing: 'every 3 months',
+          description: '3-day free trial, then $45 every 3 months',
+          trialNote: 'No payment required today - Save 25%'
         };
       case 'annual':
         return {
           title: 'Annual Plan',
-          price: `$${pricing.annual}`,
-          billing: 'Billed annually',
-          description: 'Best value - save 60%'
+          price: '$120',
+          billing: 'per year',
+          description: '3-day free trial, then $120/year',
+          trialNote: 'No payment required today - Save 50%'
         };
       default: // monthly
         return {
           title: 'Monthly Plan',
-          price: `$${pricing.monthly}`,
-          billing: 'Billed monthly',
-          description: 'Cancel anytime'
+          price: '$20',
+          billing: 'per month',
+          description: '3-day free trial, then $20/month',
+          trialNote: 'No payment required today'
         };
     }
   };
@@ -204,7 +214,24 @@ export function PaymentFormScreen({ stage, planType, email }: PaymentFormScreenP
             <div className="text-center">
               <h2 className="text-lg font-semibold text-primary mb-1">{planDetails.title}</h2>
               <div className="text-2xl font-bold text-primary mb-1">{planDetails.price}</div>
-              <div className="text-xs text-muted-foreground">{planDetails.billing}</div>
+              <div className="text-xs text-muted-foreground mb-2">{planDetails.billing}</div>
+              <div className="text-xs text-muted-foreground">{planDetails.description}</div>
+            </div>
+          </MobileCard>
+        </div>
+
+        {/* Free Trial Notice */}
+        <div className="px-4 pb-4">
+          <MobileCard className="border-2 border-green-500 bg-green-50">
+            <div className="text-center">
+              <div className="text-lg mb-2">🎉</div>
+              <h3 className="text-sm font-semibold text-green-800 mb-1">3-Day Free Trial</h3>
+              <p className="text-xs text-green-700 mb-1">
+                {planDetails.trialNote}
+              </p>
+              <p className="text-xs text-green-600">
+                Your card will be charged after the trial period.
+              </p>
             </div>
           </MobileCard>
         </div>
@@ -346,7 +373,7 @@ export function PaymentFormScreen({ stage, planType, email }: PaymentFormScreenP
                     disabled={isLoading || !selectedPaymentMethod}
                     className="w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-lg text-sm font-medium transition-colors"
                   >
-                    {isLoading ? 'Processing Payment...' : `Complete Purchase - ${planDetails.price}`}
+                    {isLoading ? 'Starting Free Trial...' : 'Start Free Trial - $0 Today'}
                   </button>
                 </form>
               </div>

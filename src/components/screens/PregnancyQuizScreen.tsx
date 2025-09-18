@@ -157,7 +157,7 @@ export function PregnancyQuizScreen() {
   // Handle option selection
   const handleOptionSelect = (optionValue: string) => {
     if (currentQuestionData?.type === 'single-select') {
-      // Single select - update the appropriate field
+      // Single select - update the appropriate field and auto-advance
       const fieldMap: { [key: number]: keyof QuizAnswers } = {
         1: 'birthType',
         2: 'laborPrep',
@@ -171,9 +171,30 @@ export function PregnancyQuizScreen() {
       const field = fieldMap[currentQuestionData.id];
       if (field) {
         setAnswers(prev => ({ ...prev, [field]: optionValue as string }));
+        
+        // Auto-advance to next question after a short delay
+        setTimeout(() => {
+          if (currentQuestion < availableQuestions.length) {
+            setCurrentQuestion(prev => prev + 1);
+          } else {
+            // Quiz complete - navigate to offer screen
+            const recommendedPrograms = getRecommendedPrograms();
+            const params = new URLSearchParams({
+              stage: 'pregnancy',
+              programs: recommendedPrograms.join(','),
+              source: 'quiz'
+            });
+
+            if (trimester) {
+              params.append('trimester', trimester);
+            }
+
+            window.location.href = `/pregnancy-offer?${params.toString()}`;
+          }
+        }, 300);
       }
     } else if (currentQuestionData?.type === 'multi-select') {
-      // Multi select - toggle in array
+      // Multi select - handle "none of the above" logic
       const fieldMap: { [key: number]: keyof QuizAnswers } = {
         5: 'goals',
         7: 'workoutTypes',
@@ -183,11 +204,24 @@ export function PregnancyQuizScreen() {
       const field = fieldMap[currentQuestionData.id];
       if (field) {
         const currentArray = (answers[field] as string[]) || [];
-        const newArray = currentArray.includes(optionValue)
-          ? currentArray.filter(item => item !== optionValue)
-          : [...currentArray, optionValue];
         
-        setAnswers(prev => ({ ...prev, [field]: newArray }));
+        // Handle "none of the above" option
+        if (optionValue === 'None of the Above') {
+          // If selecting "none of the above", clear all other selections
+          setAnswers(prev => ({ ...prev, [field]: ['None of the Above'] }));
+        } else {
+          // If selecting a regular option, remove "none of the above" if it exists
+          let newArray;
+          if (currentArray.includes(optionValue)) {
+            // Deselecting the option
+            newArray = currentArray.filter(item => item !== optionValue);
+          } else {
+            // Selecting the option - remove "none of the above" first
+            newArray = [...currentArray.filter(item => item !== 'None of the Above'), optionValue];
+          }
+          
+          setAnswers(prev => ({ ...prev, [field]: newArray }));
+        }
       }
     }
   };
@@ -279,11 +313,6 @@ export function PregnancyQuizScreen() {
     }
   };
 
-  const handleBack = () => {
-    if (currentQuestion > 1) {
-      setCurrentQuestion(prev => prev - 1);
-    }
-  };
 
   // Check if option is selected
   const isOptionSelected = (optionValue: string) => {
@@ -378,29 +407,20 @@ export function PregnancyQuizScreen() {
           </MobileCard>
         </div>
 
-        {/* Navigation */}
-        <div className="px-4 pb-4 flex space-x-3">
-          {currentQuestion > 1 && (
+        {/* Navigation - Only show for multi-select questions */}
+        {currentQuestionData?.type === 'multi-select' && (
+          <div className="px-4 pb-4">
             <MobileButton 
               size="lg"
-              variant="outline"
-              onClick={handleBack}
-              className="flex-1"
+              onClick={handleNext}
+              disabled={!isCurrentQuestionAnswered() || isLoading}
+              className="w-full"
             >
-              Back
+              {isLoading ? 'Finding Your Programs...' : 
+               currentQuestion === availableQuestions.length ? 'Get My Recommendations' : 'Next'}
             </MobileButton>
-          )}
-          
-          <MobileButton 
-            size="lg"
-            onClick={handleNext}
-            disabled={!isCurrentQuestionAnswered() || isLoading}
-            className="flex-1"
-          >
-            {isLoading ? 'Finding Your Programs...' : 
-             currentQuestion === availableQuestions.length ? 'Get My Recommendations' : 'Next'}
-          </MobileButton>
-        </div>
+          </div>
+        )}
       </div>
     </MobileLayout>
   );

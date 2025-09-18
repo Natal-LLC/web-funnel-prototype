@@ -15,14 +15,13 @@ export function TTCTimelineScreen() {
 
   const handleTimelineSelect = (timelineId: string) => {
     setSelectedTimeline(timelineId);
+    
+    // Auto-advance to next screen after a short delay
+    setTimeout(() => {
+      window.location.href = `/ttc-offer?timeline=${timelineId}`;
+    }, 300);
   };
 
-  const handleContinue = () => {
-    if (selectedTimeline) {
-      // Route to TTC offer screen with timeline context
-      window.location.href = `/ttc-offer?timeline=${selectedTimeline}`;
-    }
-  };
 
   return (
     <MobileLayout>
@@ -75,17 +74,6 @@ export function TTCTimelineScreen() {
           </div>
         </div>
 
-        {/* Continue Button */}
-        {selectedTimeline && (
-          <div className="px-4 pb-4">
-            <MobileButton 
-              size="lg"
-              onClick={handleContinue}
-            >
-              Continue
-            </MobileButton>
-          </div>
-        )}
       </div>
     </MobileLayout>
   );

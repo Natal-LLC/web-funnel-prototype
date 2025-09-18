@@ -33,18 +33,98 @@ const DISPOSABLE_DOMAINS = [
   'temp-mail.org'
 ];
 
-// Common typos in email domains
+// Common typos in email domains - much more comprehensive
 const DOMAIN_TYPOS: Record<string, string> = {
+  // Gmail variations
   'gmai.com': 'gmail.com',
-  'gmial.com': 'gmail.com', 
+  'gmial.com': 'gmail.com',
   'gmail.co': 'gmail.com',
   'gmail.cm': 'gmail.com',
+  'gmail.con': 'gmail.com',
+  'gmail.coom': 'gmail.com',
+  'gmail.cpm': 'gmail.com',
+  'gmail.ocm': 'gmail.com',
+  'gmial.co': 'gmail.com',
+  'gmai.co': 'gmail.com',
+  'gmail.om': 'gmail.com',
+  'gmail.omc': 'gmail.com',
+  
+  // Yahoo variations
   'yahooo.com': 'yahoo.com',
   'yahoo.co': 'yahoo.com',
+  'yahoo.cm': 'yahoo.com',
+  'yahoo.con': 'yahoo.com',
+  'yahoo.ocm': 'yahoo.com',
+  'yahoo.om': 'yahoo.com',
+  'yaho.com': 'yahoo.com',
+  'yaho.co': 'yahoo.com',
+  'yahooo.co': 'yahoo.com',
+  
+  // Hotmail variations
   'hotmial.com': 'hotmail.com',
   'hotmail.co': 'hotmail.com',
+  'hotmail.cm': 'hotmail.com',
+  'hotmail.con': 'hotmail.com',
+  'hotmail.ocm': 'hotmail.com',
+  'hotmail.om': 'hotmail.com',
+  'hotmial.co': 'hotmail.com',
+  'hotmai.com': 'hotmail.com',
+  'hotmai.co': 'hotmail.com',
+  
+  // Outlook variations
   'outlok.com': 'outlook.com',
-  'outlook.co': 'outlook.com'
+  'outlook.co': 'outlook.com',
+  'outlook.cm': 'outlook.com',
+  'outlook.con': 'outlook.com',
+  'outlook.ocm': 'outlook.com',
+  'outlook.om': 'outlook.com',
+  'outlok.co': 'outlook.com',
+  'outook.com': 'outlook.com',
+  'outook.co': 'outlook.com',
+  
+  // iCloud variations
+  'iclud.com': 'icloud.com',
+  'icloud.co': 'icloud.com',
+  'icloud.cm': 'icloud.com',
+  'icloud.con': 'icloud.com',
+  'icloud.ocm': 'icloud.com',
+  'icloud.om': 'icloud.com',
+  'iclud.co': 'icloud.com',
+  
+  // AOL variations
+  'ao.com': 'aol.com',
+  'aol.co': 'aol.com',
+  'aol.cm': 'aol.com',
+  'aol.con': 'aol.com',
+  'aol.ocm': 'aol.com',
+  'aol.om': 'aol.com',
+  'ao.co': 'aol.com',
+  'aol.fake': 'aol.com', // Catch fake domains
+  'gmail.fake': 'gmail.com',
+  'yahoo.fake': 'yahoo.com',
+  'hotmail.fake': 'hotmail.com',
+  'outlook.fake': 'outlook.com',
+  'test.com': 'gmail.com', // Common test domain
+  'example.com': 'gmail.com', // Common example domain
+  
+  // Live variations
+  'live.co': 'live.com',
+  'live.cm': 'live.com',
+  'live.con': 'live.com',
+  'live.ocm': 'live.com',
+  'live.om': 'live.com',
+  
+  // Common extension typos (catch .fake, .comx, etc.)
+  '.fake': '.com',
+  '.comx': '.com',
+  '.comm': '.com',
+  '.cpm': '.com',
+  '.coom': '.com',
+  '.ocm': '.com',
+  '.om': '.com',
+  '.con': '.com',
+  '.cm': '.com',
+  '.co': '.com'
 };
 
 /**
@@ -76,6 +156,19 @@ export function validateEmail(
     return { isValid: false, error: 'Please enter a valid email address' };
   }
 
+  // Additional format checks
+  if (trimmedEmail.includes('..')) {
+    return { isValid: false, error: 'Email address cannot contain consecutive dots' };
+  }
+  
+  if (trimmedEmail.startsWith('.') || trimmedEmail.endsWith('.')) {
+    return { isValid: false, error: 'Email address cannot start or end with a dot' };
+  }
+  
+  if (trimmedEmail.startsWith('@') || trimmedEmail.endsWith('@')) {
+    return { isValid: false, error: 'Please enter a complete email address' };
+  }
+
   const [localPart, domain] = trimmedEmail.split('@');
   
   // Check for obviously invalid emails
@@ -98,15 +191,36 @@ export function validateEmail(
     };
   }
 
-  // Check for common typos
-  if (checkTypo && DOMAIN_TYPOS[domain]) {
-    const correctedDomain = DOMAIN_TYPOS[domain];
-    const correctedEmail = `${localPart}@${correctedDomain}`;
-    return {
-      isValid: false,
-      error: 'Did you mean a different email address?',
-      suggestions: [`Try: ${correctedEmail}`]
-    };
+  // Check for common typos (both full domain and extension-only)
+  if (checkTypo) {
+    // First check for full domain typos
+    if (DOMAIN_TYPOS[domain]) {
+      const correctedDomain = DOMAIN_TYPOS[domain];
+      const correctedEmail = `${localPart}@${correctedDomain}`;
+      return {
+        isValid: false,
+        error: 'Did you mean a different email address?',
+        suggestions: [`Try: ${correctedEmail}`]
+      };
+    }
+    
+    // Check for extension-only typos (like .fake, .comx, etc.)
+    const domainParts = domain.split('.');
+    if (domainParts.length >= 2) {
+      const extension = '.' + domainParts[domainParts.length - 1];
+      const baseDomain = domainParts.slice(0, -1).join('.');
+      
+      if (DOMAIN_TYPOS[extension]) {
+        const correctedExtension = DOMAIN_TYPOS[extension];
+        const correctedDomain = baseDomain + correctedExtension;
+        const correctedEmail = `${localPart}@${correctedDomain}`;
+        return {
+          isValid: false,
+          error: 'Did you mean a different email address?',
+          suggestions: [`Try: ${correctedEmail}`]
+        };
+      }
+    }
   }
 
   // Check for uncommon domains and suggest common ones

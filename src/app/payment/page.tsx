@@ -8,7 +8,7 @@ import { Suspense } from 'react';
 function PaymentContent() {
   const searchParams = useSearchParams();
   const stage = (searchParams.get('stage') as Stage) || 'ttc';
-  const planType = (searchParams.get('plan') as 'trial' | 'monthly' | 'annual') || 'monthly';
+  const planType = (searchParams.get('plan') as 'trial' | 'monthly' | 'quarterly' | 'annual') || 'monthly';
   const email = searchParams.get('email') || '';
 
   return <PaymentFormScreen stage={stage} planType={planType} email={email} />;

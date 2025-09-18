@@ -21,14 +21,14 @@ export function WelcomeLandingScreen() {
             size="lg"
             onClick={() => window.location.href = '/stage-selection'}
           >
-            Sign Up
+            Start My Journey
           </MobileButton>
           <MobileButton 
             size="lg"
             variant="outline"
             onClick={() => window.location.href = '/sign-in'}
           >
-            Sign In
+            Existing User
           </MobileButton>
         </div>
       </div>

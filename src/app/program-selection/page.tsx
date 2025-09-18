@@ -9,8 +9,10 @@ function ProgramSelectionContent() {
   const searchParams = useSearchParams();
   const stage = (searchParams.get('stage') as Stage) || 'pregnancy';
   const trimester = searchParams.get('trimester') || undefined;
+  const dueDate = searchParams.get('dueDate') || undefined;
+  const deliveryDate = searchParams.get('deliveryDate') || undefined;
   
-  return <ProgramSelectionScreen stage={stage} trimester={trimester} />;
+  return <ProgramSelectionScreen stage={stage} trimester={trimester} dueDate={dueDate} deliveryDate={deliveryDate} />;
 }
 
 export default function ProgramSelectionPage() {

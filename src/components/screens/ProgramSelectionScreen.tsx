@@ -7,9 +7,11 @@ import { useState } from 'react';
 interface ProgramSelectionScreenProps {
   stage: Stage;
   trimester?: string;
+  dueDate?: string;
+  deliveryDate?: string;
 }
 
-export function ProgramSelectionScreen({ stage, trimester }: ProgramSelectionScreenProps) {
+export function ProgramSelectionScreen({ stage, trimester, dueDate, deliveryDate }: ProgramSelectionScreenProps) {
   const [selectedPrograms, setSelectedPrograms] = useState<string[]>([]);
 
   // Enhanced pregnancy programs with descriptions
@@ -135,8 +137,12 @@ export function ProgramSelectionScreen({ stage, trimester }: ProgramSelectionScr
   };
 
   const handleIDontKnow = () => {
-    // Route to quiz to help them choose
-    window.location.href = `/${stage}-quiz`;
+    // Route to quiz landing to help them choose
+    if (stage === 'pregnancy') {
+      window.location.href = `/pregnancy-quiz-landing?dueDate=${dueDate}&trimester=${trimester}`;
+    } else if (stage === 'postpartum') {
+      window.location.href = `/postpartum-quiz-landing?deliveryDate=${deliveryDate}`;
+    }
   };
 
   return (
@@ -212,7 +218,7 @@ export function ProgramSelectionScreen({ stage, trimester }: ProgramSelectionScr
               size="lg"
               onClick={handleContinue}
             >
-              Enroll in these {selectedPrograms.length} program{selectedPrograms.length > 1 ? 's' : ''}
+              Enroll in {selectedPrograms.length} program{selectedPrograms.length > 1 ? 's' : ''}
             </MobileButton>
           </div>
         )}

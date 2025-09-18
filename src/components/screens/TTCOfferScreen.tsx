@@ -85,9 +85,9 @@ export function TTCOfferScreen({ timeline }: TTCOfferScreenProps) {
 
   const offerContent = {
     emoji: '🎉',
-    title: "You've Unlocked Your Special TTC Offer!",
-    subtitle: `Get exclusive access to our comprehensive TTC program ${getTimelineText()}`,
-    programName: 'Exclusive TTC Program',
+    title: "Unlocked Your Offer!",
+    subtitle: `Get exclusive access to our comprehensive programs ${getTimelineText()}`,
+    programName: 'Tryting to Conceive',
     discount: '50% OFF',
     features: [
       'Personalized nutrition plan',
@@ -121,7 +121,7 @@ export function TTCOfferScreen({ timeline }: TTCOfferScreenProps) {
                 <div className="text-3xl mb-3">✨</div>
                 <h2 className="text-lg font-bold text-primary mb-2">{offerContent.programName}</h2>
                 <div className="text-3xl font-bold text-primary mb-2">{offerContent.discount}</div>
-                <div className="text-xs text-muted-foreground mb-4">Limited time only</div>
+                <div className="text-xs text-muted-foreground mb-4">Web Exclusive</div>
                 
                 <div className="space-y-2 mb-6 text-left">
                   {offerContent.features.map((feature, index) => (
@@ -133,57 +133,11 @@ export function TTCOfferScreen({ timeline }: TTCOfferScreenProps) {
                 </div>
               </div>
 
-              {/* Email Capture Form */}
+              {/* Login Options */}
               <div className="flex-1 flex flex-col justify-end">
-                <form onSubmit={handleEmailSubmit} className="space-y-4">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                      Enter your email to claim this offer
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      value={email}
-                      onChange={handleEmailChange}
-                      placeholder="your@email.com"
-                      className={`w-full px-3 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent ${
-                        emailError ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                      required
-                    />
-                    {emailError && (
-                      <div className="mt-1">
-                        <p className="text-red-500 text-xs">{emailError}</p>
-                        {emailSuggestions.length > 0 && (
-                          <p className="text-blue-600 text-xs mt-1">
-                            💡 {formatEmailSuggestions(emailSuggestions)}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  
-                  <button
-                    type="submit"
-                    disabled={!email.trim() || !validateEmailRealTime(email).isValid || isLoading}
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-lg text-sm font-medium transition-colors"
-                  >
-                    {isLoading ? 'Processing...' : offerContent.buttonText}
-                  </button>
-                </form>
-
-                {/* Social Login Options */}
-                <div className="mt-4">
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-gray-300" />
-                    </div>
-                    <div className="relative flex justify-center text-sm">
-                      <span className="px-2 bg-white text-muted-foreground">or</span>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4 space-y-3">
+                <div className="space-y-4">
+                  {/* Social Login Options - Primary */}
+                  <div className="space-y-3">
                     {/* Google Sign In */}
                     <button
                       type="button"
@@ -210,6 +164,55 @@ export function TTCOfferScreen({ timeline }: TTCOfferScreenProps) {
                       </svg>
                       Continue with Apple
                     </button>
+                  </div>
+
+                  {/* Email Option - Secondary */}
+                  <div className="mt-4">
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-300" />
+                      </div>
+                      <div className="relative flex justify-center text-sm">
+                        <span className="px-2 bg-white text-muted-foreground">or</span>
+                      </div>
+                    </div>
+                    
+                    <form onSubmit={handleEmailSubmit} className="mt-4 space-y-4">
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                          Continue with Email
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          value={email}
+                          onChange={handleEmailChange}
+                          placeholder="your@email.com"
+                          className={`w-full px-3 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent ${
+                            emailError ? 'border-red-500' : 'border-gray-300'
+                          }`}
+                          required
+                        />
+                        {emailError && (
+                          <div className="mt-1">
+                            <p className="text-red-500 text-xs">{emailError}</p>
+                            {emailSuggestions.length > 0 && (
+                              <p className="text-blue-600 text-xs mt-1">
+                                💡 {formatEmailSuggestions(emailSuggestions)}
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      
+                      <button
+                        type="submit"
+                        disabled={!email.trim() || !validateEmailRealTime(email).isValid || isLoading}
+                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        {isLoading ? 'Processing...' : 'Continue with Email'}
+                      </button>
+                    </form>
                   </div>
                 </div>
                 
