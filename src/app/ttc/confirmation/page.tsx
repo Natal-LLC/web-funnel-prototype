@@ -1,7 +1,7 @@
 'use client';
 
-import { TTCConfirmationScreen } from '@/components/screens/TTCConfirmationScreen';
+import { PaymentConfirmationScreen } from '@/components/screens/PaymentConfirmationScreen';
 
 export default function ConfirmationPage() {
-  return <TTCConfirmationScreen />;
+  return <PaymentConfirmationScreen stage="ttc" />;
 }

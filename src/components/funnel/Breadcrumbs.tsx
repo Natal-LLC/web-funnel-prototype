@@ -4,17 +4,21 @@ import { useFunnel } from './FunnelProvider';
 import { FunnelStep } from '@/types';
 
 const stepLabels: Record<FunnelStep, string> = {
+  'splash': 'Welcome',
   'stage-selection': 'Select Stage',
   'ttc-congratulations': 'Congratulations',
   'ttc-claim-offer': 'Claim Offer',
   'ttc-choose-plan': 'Choose Plan',
   'ttc-confirmation': 'Payment Confirmed',
   'ttc-app-download': 'Download App',
+  'know-program': 'Know Program',
   'program-knowledge': 'Program Knowledge',
   'program-selection': 'Choose Programs',
   'quiz-landing': 'Quiz Landing',
   'quiz-flow': 'Take Quiz',
   'quiz-results': 'Quiz Results',
+  'pregnancy-quiz': 'Pregnancy Quiz',
+  'postpartum-quiz': 'Postpartum Quiz',
   'paywall': 'Subscription',
   'success': 'Success',
 };

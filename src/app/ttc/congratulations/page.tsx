@@ -3,5 +3,5 @@
 import { TTCCongratulationsScreen } from '@/components/screens/TTCCongratulationsScreen';
 
 export default function CongratulationsPage() {
-  return <TTCCongratulationsScreen />;
+  return <TTCCongratulationsScreen stage="ttc" />;
 }

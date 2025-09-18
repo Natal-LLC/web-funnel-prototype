@@ -170,7 +170,7 @@ export function PregnancyQuizScreen() {
       
       const field = fieldMap[currentQuestionData.id];
       if (field) {
-        setAnswers(prev => ({ ...prev, [field]: optionValue as any }));
+        setAnswers(prev => ({ ...prev, [field]: optionValue as string }));
       }
     } else if (currentQuestionData?.type === 'multi-select') {
       // Multi select - toggle in array
@@ -325,7 +325,7 @@ export function PregnancyQuizScreen() {
             Pregnancy Quiz
           </h1>
           <p className="text-sm text-muted-foreground">
-            Let's find the perfect programs for you
+            Let&apos;s find the perfect programs for you
           </p>
           <div className="mt-3 text-xs text-muted-foreground">
             Question {currentQuestion} of {availableQuestions.length}

@@ -53,7 +53,7 @@ export function PostpartumQuizScreen() {
       type: 'single-select',
       options: [
         { value: 'no', label: 'No' },
-        { value: 'idk', label: "I don't know" },
+        { value: 'idk', label: "I don&apos;t know" },
         { value: 'yes', label: 'Yes' }
       ]
     },
@@ -256,7 +256,7 @@ export function PostpartumQuizScreen() {
       
       const field = fieldMap[currentQuestionData.id];
       if (field) {
-        setAnswers(prev => ({ ...prev, [field]: optionValue as any }));
+        setAnswers(prev => ({ ...prev, [field]: optionValue as string }));
       }
     } else if (currentQuestionData?.type === 'multi-select') {
       // Multi select - toggle in array

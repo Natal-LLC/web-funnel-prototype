@@ -4,13 +4,20 @@ export type FunnelStep =
   | 'splash'
   | 'stage-selection'
   | 'ttc-congratulations'
+  | 'ttc-claim-offer'
   | 'ttc-choose-plan'
   | 'ttc-confirmation'
   | 'ttc-app-download'
   | 'know-program'
+  | 'program-knowledge'
   | 'program-selection'
+  | 'quiz-landing'
+  | 'quiz-flow'
+  | 'quiz-results'
   | 'pregnancy-quiz'
-  | 'postpartum-quiz';
+  | 'postpartum-quiz'
+  | 'paywall'
+  | 'success';
 
 export type Program = {
   id: string;

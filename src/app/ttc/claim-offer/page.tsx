@@ -1,7 +1,7 @@
 'use client';
 
-import { TTCClaimOfferScreen } from '@/components/screens/TTCClaimOfferScreen';
+import { TTCOfferScreen } from '@/components/screens/TTCOfferScreen';
 
 export default function ClaimOfferPage() {
-  return <TTCClaimOfferScreen />;
+  return <TTCOfferScreen />;
 }
