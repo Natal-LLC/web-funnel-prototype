@@ -1,5 +1,6 @@
 'use client';
 
+// App download page with Suspense boundary
 import { AppDownloadScreen } from '@/components/screens/AppDownloadScreen';
 import { useSearchParams } from 'next/navigation';
 import { Stage } from '@/types';
