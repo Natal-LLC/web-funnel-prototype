@@ -1,26 +1,467 @@
+/* Import Outfit font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Figma Design System Colors */
+  --background: #E6EAF1;
+  --foreground: #1B1A1A;
+  --card: #FFFFFF;
+  --card-foreground: #1B1A1A;
+  --popover: #FFFFFF;
+  --popover-foreground: #1B1A1A;
+  --primary: #1B1A1A;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FBF4EE;
+  --secondary-foreground: #1B1A1A;
+  --muted: #5F6873;
+  --muted-foreground: #5F6873;
+  --accent: #FBF4EE;
+  --accent-foreground: #1B1A1A;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: #E2E8F0;
+  --ring: #1B1A1A;
+  --radius: 8px;
+  
+  /* Additional Figma Colors */
+  --figma-gray-1: #5F6873;
+  --figma-gray-2: #8E959E;
+  --figma-gray-3: #CFD6E1;
+  --figma-gray-4: #64676B;
+  --figma-background: #E6EAF1;
+  --figma-card-bg: #FBF4EE;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Keep light theme for mobile-first design */
+
+/* Mobile-first responsive design */
+html {
+  font-size: 16px; /* Prevent zoom on iOS */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
+  background: var(--figma-background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Mobile container - simple and direct */
+.mobile-container {
+  background: #FFF0E5;
+  border-radius: 40px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  height: 777px;
+  width: 403px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure all content fits within the mobile container */
+.mobile-container > * {
+  max-height: 100%;
+  overflow-y: auto; /* Allow scrolling if content exceeds container */
+}
+
+/* Desktop view - same dimensions */
+@media (min-width: 769px) {
+  .mobile-container {
+    margin: 2rem auto;
+    height: 777px;
+    width: 403px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Touch-friendly button sizing for all devices */
+button, [role="button"] {
+  min-height: 44px; /* iOS touch target minimum */
+  min-width: 44px;
+  font-family: var(--font-sans);
+}
+
+/* Typography from Figma */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+h1 {
+  font-size: 34px;
+  line-height: 40px;
+  letter-spacing: 0.0025em;
+}
+
+h2 {
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+p {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--muted-foreground);
+}
+
+/* Mobile card styling */
+.mobile-card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+  min-height: 0; /* Allow flex shrinking */
+}
+
+/* Mobile button styling */
+.mobile-button {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: 8px;
+  padding: 16px 24px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.mobile-button:hover {
+  background: rgba(27, 26, 26, 0.9);
+  transform: translateY(-1px);
+}
+
+.mobile-button:active {
+  transform: translateY(0);
+  background: rgba(27, 26, 26, 0.8);
+}
+
+.mobile-button.outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.mobile-button.outline:hover {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Header styling */
+.header {
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+
+.natal-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.natal-logo svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Progress indicator styling */
+.progress-bar {
+  background: var(--primary);
+  opacity: 0.2;
+  border-radius: 48px;
+  height: 7px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: var(--primary);
+  border-radius: 48px;
+  height: 7px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+/* Responsive adjustments for different mobile sizes */
+@media (max-width: 375px) {
+  .mobile-container {
+    margin: 0.5rem;
+    height: 777px;
+    width: 403px;
+    border-radius: 24px;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 414px) {
+  .mobile-container {
+    margin: 1rem;
+    height: 777px;
+    width: 403px;
+  }
+}
+
+@media (min-width: 415px) and (max-width: 768px) {
+  .mobile-container {
+    margin: 1rem auto;
+    height: 777px;
+    width: 403px;
+  }
+}
+
+/* Ensure mobile-first approach - desktop looks like mobile */
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem 0;
+    background: var(--figma-background);
+  }
+  
+  .mobile-container {
+    position: relative;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Animation for smooth transitions */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus states for accessibility */
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Splash Screen Styling */
+.splash-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Simple splash screen - logo, background, and buttons */
+.splash-simple {
+  background: url('/images/splash/f5222dfd90c6ba4ec27febc4762d409c05d490c5.png');
+  background-size: cover;
+  background-position: center 70% !important;
+  background-repeat: no-repeat;
+  height: 777px; /* Exact height to match container */
+  width: 403px; /* Exact width to match container */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden; /* Prevent content from expanding */
+}
+
+/* Logo at top */
+.splash-logo {
+  position: relative;
+  z-index: 10;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.splash-logo-img {
+  height: 46px;
+  width: auto;
+  max-width: 135px;
+}
+
+.splash-ellipse-hidden {
+  position: absolute;
+  width: 684px;
+  height: 684px;
+  left: -104px;
+  top: 406px;
+  background: linear-gradient(180.59deg, #F4DCCB 5.06%, #FFFEFD 61.14%);
+  mix-blend-mode: normal;
+  visibility: hidden;
+}
+
+.splash-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 0 16px 20px;
+}
+
+
+.splash-photos {
+  position: absolute;
+  width: 783px;
+  height: 783px;
+  left: -201px;
+  top: -216px;
+  transform: rotate(-22.26deg);
+  z-index: 5;
+}
+
+.photo {
+  position: absolute;
+  width: 245px;
+  height: 245px;
+  border-radius: 16px;
+  background: linear-gradient(105.14deg, #B79891 -4.5%, #C4996D 168.9%);
+}
+
+.photo-1 {
+  left: 74px;
+  top: -92px;
+  visibility: hidden;
+}
+
+.photo-2 {
+  left: 136px;
+  top: 101px;
+  transform: rotate(-19.02deg);
+}
+
+.photo-3 {
+  left: -142px;
+  top: 89px;
+  background: linear-gradient(105.14deg, #AEACA2 -4.5%, #ACB4A7 168.9%);
+  transform: rotate(-19.02deg);
+}
+
+.photo-4 {
+  left: -60px;
+  top: 337px;
+  background: linear-gradient(105.14deg, #AEACA2 -4.5%, #ACB4A7 168.9%);
+  transform: rotate(-19.02deg);
+}
+
+.photo-5 {
+  left: 221px;
+  top: 348px;
+  background: linear-gradient(105.14deg, #AEACA2 -4.5%, #ACB4A7 168.9%);
+  transform: rotate(-19.02deg);
+}
+
+.splash-heading {
+  text-align: center;
+  z-index: 20;
+}
+
+.splash-heading h1 {
+  font-family: 'Outfit';
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #1B1A1A;
+  margin: 0;
+}
+
+.splash-indicators {
+  display: flex;
+  gap: 8px;
+  z-index: 20;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #1B1A1A;
+  opacity: 0.2;
+}
+
+.indicator.active {
+  opacity: 1;
+}
+
+.splash-buttons {
+  position: relative;
+  z-index: 10;
+  padding: 20px;
+  display: flex;
+  gap: 12px;
+}
+
+.splash-buttons .mobile-button {
+  flex: 1;
+  height: 56px;
 }
