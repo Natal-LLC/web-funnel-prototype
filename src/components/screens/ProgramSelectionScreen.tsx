@@ -90,14 +90,14 @@ export function ProgramSelectionScreen({ stage, trimester, dueDate, deliveryDate
           : '';
         return {
           emoji: '🤰',
-          title: 'Select Your Pregnancy Programs',
+          title: 'Select Your Programs',
           subtitle: `Choose one or more programs that match your needs${trimesterText}. You can select multiple programs.`,
           stageName: 'pregnancy'
         };
       case 'postpartum':
         return {
           emoji: '👶',
-          title: 'Select Your Postpartum Programs',
+          title: 'Select Your Programs',
           subtitle: 'Choose one or more programs that match your recovery needs. You can select multiple programs.',
           stageName: 'postpartum'
         };
@@ -132,7 +132,7 @@ export function ProgramSelectionScreen({ stage, trimester, dueDate, deliveryDate
       
       if (trimester) params.append('trimester', trimester);
       
-      window.location.href = `/pregnancy-offer?${params.toString()}`;
+      window.location.href = `/choose-plan?${params.toString()}`;
     }
   };
 

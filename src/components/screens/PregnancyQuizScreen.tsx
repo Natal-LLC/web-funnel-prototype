@@ -46,22 +46,22 @@ export function PregnancyQuizScreen() {
     // Question 2: Labor Prep (only if vaginal)
     {
       id: 2,
-      title: 'I am interested in preparing for labor...',
+      title: 'Arer you interested in preparing for labor?',
       type: 'single-select',
       options: [
-        { value: 'interested', label: 'I am interested in preparing for labor' },
-        { value: 'not-interested', label: 'I am not interested in preparing for labor' }
+        { value: 'interested', label: 'Yes' },
+        { value: 'not-interested', label: 'No' }
       ],
       condition: () => answers.birthType === 'vaginal'
     },
     // Question 3: Birth Recovery
     {
       id: 3,
-      title: 'I am interested in recovering from birth...',
+      title: 'Are you interested in recovering from birth?',
       type: 'single-select',
       options: [
-        { value: 'interested', label: 'I am interested in recovering from birth' },
-        { value: 'not-interested', label: 'I am NOT interested in recovering from birth' }
+        { value: 'interested', label: 'Yes' },
+        { value: 'not-interested', label: 'No' }
       ]
     },
     // Question 4: Activity Level
@@ -103,7 +103,7 @@ export function PregnancyQuizScreen() {
     // Question 7: Workout Types
     {
       id: 7,
-      title: 'What type of workouts do you prefer?',
+      title: 'What type of workouts do you enjoy?',
       type: 'multi-select',
       options: [
         { value: 'Yoga', label: 'Yoga' },
@@ -120,28 +120,27 @@ export function PregnancyQuizScreen() {
       title: 'What kind of coaching do you prefer?',
       type: 'single-select',
       options: [
-        { value: 'private', label: 'Private Coaching (i.e. Chat)' },
-        { value: 'group', label: 'Group Coaching (i.e. Community)' },
-        { value: 'alone', label: 'Prefer to be left alone' }
+        { value: 'private', label: 'Private Coaching' },
+        { value: 'group', label: 'Group Coaching' },
+        { value: 'alone', label: 'I do not need coaching' }
       ]
     },
     // Question 9: Motivation
     {
       id: 9,
-      title: 'What keeps you motivated?',
+      title: 'Which of the following keeps you motivated?',
       type: 'multi-select',
       options: [
-        { value: 'Community', label: 'Community' },
-        { value: 'Prize Money', label: 'Prize Money' },
-        { value: 'Rewards', label: 'Rewards' },
-        { value: 'Recognition', label: 'Recognition' },
+        { value: 'Positive Feedback', label: 'Positive Feedback' },
+        { value: 'Prizes and Rewards', label: 'Prizes and Rewards' },
+        { value: 'Public Recognition', label: 'Public Recognition' },
         { value: 'None of the Above', label: 'None of the Above' }
       ]
     },
     // Question 10: Community
     {
       id: 10,
-      title: 'Do you value a supportive community?',
+      title: 'Do you value a supportive community to help hold you accountable?',
       type: 'single-select',
       options: [
         { value: 'yes', label: 'Yes' },
@@ -189,7 +188,7 @@ export function PregnancyQuizScreen() {
               params.append('trimester', trimester);
             }
 
-            window.location.href = `/pregnancy-offer?${params.toString()}`;
+                window.location.href = `/pregnancy-offer?${params.toString()}`;
           }
         }, 300);
       }
@@ -262,11 +261,12 @@ export function PregnancyQuizScreen() {
   const getRecommendedPrograms = () => {
     const programs: string[] = [];
 
-    // BB vs EA mapping based on activity level
+    // 1. FITNESS PROGRAMS (Priority 1 - Based on activity level)
     if (['just-started', 'moving-little'].includes(answers.activityLevel || '')) {
+      // Just getting started or moving a little bit → Beginner Bump
       programs.push('beginner-bump');
     } else if (['fairly-active', 'very-active', 'training-strong'].includes(answers.activityLevel || '')) {
-      // Map to appropriate EA trimester based on due date from URL params
+      // Staying fairly active, very active, or training strong → Expecting Athletes for their trimester
       if (trimester) {
         const trimesterMap = {
           'first': 'ea-1t',
@@ -278,15 +278,17 @@ export function PregnancyQuizScreen() {
       }
     }
 
-    // Labor Prep mapper
-    if (answers.birthType === 'vaginal' && answers.laborPrep === 'interested') {
-      programs.push('labor-prep');
-    }
-
-    // Ab Prehab mapper
+    // 2. ADDITIONAL PROGRAMS (Priority 2 - Based on interests)
+    // Ab Prehab (if interested in recovering from birth)
     if (answers.birthRecovery === 'interested') {
       programs.push('ab-prehab');
     }
+
+    // Labor Prep (only if planning vaginal birth and interested in preparing for labor)
+    if (answers.birthType === 'vaginal' && answers.laborPrep === 'interested') {
+      programs.push('labor-prep');
+    }
+    // Note: C-section users don't get labor prep recommendation
 
     return programs;
   };
@@ -309,7 +311,7 @@ export function PregnancyQuizScreen() {
       }
 
       setIsLoading(true);
-      window.location.href = `/pregnancy-offer?${params.toString()}`;
+                window.location.href = `/pregnancy-offer?${params.toString()}`;
     }
   };
 
@@ -354,7 +356,7 @@ export function PregnancyQuizScreen() {
             Pregnancy Quiz
           </h1>
           <p className="text-sm text-muted-foreground">
-            Let&apos;s find the perfect programs for you
+            Find the perfect pregnancy program for you
           </p>
           <div className="mt-3 text-xs text-muted-foreground">
             Question {currentQuestion} of {availableQuestions.length}
@@ -362,8 +364,8 @@ export function PregnancyQuizScreen() {
         </div>
 
         {/* Question */}
-        <div className="flex-1 px-4 pb-4 overflow-y-auto">
-          <MobileCard className="h-full">
+        <div className="flex-1 px-4 pb-4">
+          <MobileCard className="min-h-full">
             <div className="p-4">
               {currentQuestionData && (
                 <div className="space-y-4">

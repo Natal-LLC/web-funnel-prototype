@@ -36,16 +36,16 @@ export function StageSelectionScreen() {
           <div className="space-y-3 flex flex-col justify-center min-h-0">
             <MobileCard 
               className="cursor-pointer hover:shadow-lg transition-all duration-200 active:scale-95 border-2 border-transparent hover:border-primary flex items-center justify-center py-6"
-              onClick={() => handleStageSelection('ttc')}
+              onClick={() => handleStageSelection('postpartum')}
             >
               <div className="text-center">
-                <div className="text-2xl mb-1">🌱</div>
-                <h2 className="text-lg font-bold mb-1">TTC</h2>
+                <div className="text-2xl mb-1">👶</div>
+                <h2 className="text-lg font-bold mb-1">Postpartum</h2>
                 <p className="text-xs text-muted-foreground font-medium">
-                  Trying to Conceive
+                Fourth Trimester
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Preparing your body for conception
+                  Recovery and support
                 </p>
               </div>
             </MobileCard>
@@ -61,23 +61,23 @@ export function StageSelectionScreen() {
                   Currently Pregnant
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Supporting you through your pregnancy journey
+                  Customized solutions
                 </p>
               </div>
             </MobileCard>
 
             <MobileCard 
               className="cursor-pointer hover:shadow-lg transition-all duration-200 active:scale-95 border-2 border-transparent hover:border-primary flex items-center justify-center py-6"
-              onClick={() => handleStageSelection('postpartum')}
+              onClick={() => handleStageSelection('ttc')}
             >
               <div className="text-center">
-                <div className="text-2xl mb-1">👶</div>
-                <h2 className="text-lg font-bold mb-1">Postpartum</h2>
+                <div className="text-2xl mb-1">🌱</div>
+                <h2 className="text-lg font-bold mb-1">Conception</h2>
                 <p className="text-xs text-muted-foreground font-medium">
-                  New Mom
+                  Trying to Conceive
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Recovery and adjustment support
+                  Preparing your body
                 </p>
               </div>
             </MobileCard>

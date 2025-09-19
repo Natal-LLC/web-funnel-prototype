@@ -101,7 +101,7 @@ export function PostpartumDeliveryDateScreen() {
         <div className="text-center px-4 pt-6 pb-4">
           <div className="text-4xl mb-3">👶</div>
           <h1 className="text-xl font-bold text-foreground mb-2 leading-tight">
-            Congratulations!
+            Hey there Mama!
           </h1>
           <p className="text-sm text-muted-foreground">
             When was your most recent delivery?
@@ -109,7 +109,7 @@ export function PostpartumDeliveryDateScreen() {
         </div>
         
         {/* Date Picker */}
-        <div className="flex-1 px-4 pb-4 flex items-center justify-center">
+        <div className="flex-1 px-4 pb-4 pt-2">
           <MobileCard className="w-full">
             <div className="text-center">
               <h2 className="text-lg font-semibold mb-4">Select Your Delivery Date</h2>

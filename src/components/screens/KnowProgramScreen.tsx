@@ -16,7 +16,7 @@ export function KnowProgramScreen({ stage, trimester, dueDate, deliveryDate }: K
       case 'pregnancy':
         return {
           emoji: '🤰',
-          title: 'Do you know which program you want to enroll in?',
+          title: 'Do you know which already program you want to start?',
           subtitle: 'We have several pregnancy programs designed for different needs and fitness levels.',
           yesButton: 'Yes, I know which program',
           noButton: 'No, help me choose'
@@ -24,7 +24,7 @@ export function KnowProgramScreen({ stage, trimester, dueDate, deliveryDate }: K
       case 'postpartum':
         return {
           emoji: '👶',
-          title: 'Do you know which program you want to enroll in?',
+          title: 'Do you know which program you want to start?',
           subtitle: 'We have several postpartum programs designed for different recovery needs and goals.',
           yesButton: 'Yes, I know which program',
           noButton: 'No, help me choose'
@@ -72,7 +72,7 @@ export function KnowProgramScreen({ stage, trimester, dueDate, deliveryDate }: K
         </div>
         
         {/* Button Options - Compact */}
-        <div className="flex-1 px-4 pb-4 flex flex-col justify-center">
+        <div className="flex-1 px-4 pb-4 pt-2">
           <div className="space-y-3">
             <MobileButton 
               size="lg"

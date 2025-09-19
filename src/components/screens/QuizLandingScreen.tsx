@@ -15,8 +15,8 @@ export function QuizLandingScreen({ stage, dueDate, deliveryDate, trimester }: Q
     if (stage === 'pregnancy') {
       return {
         emoji: '🤰',
-        title: 'Let\'s Find Your Perfect Program',
-        subtitle: 'Answer a few quick questions to get personalized recommendations',
+        title: 'Find Your Program',
+        subtitle: 'Personalized recommendations for your pregnancy',
         description: 'We\'ll ask about your fitness level, goals, and preferences to match you with the right pregnancy programs.',
         features: [
           'Takes less than 2 minutes',
@@ -24,13 +24,13 @@ export function QuizLandingScreen({ stage, dueDate, deliveryDate, trimester }: Q
           'Based on your trimester and goals',
           'Safe, expert-designed workouts'
         ],
-        buttonText: 'Let\'s Do This',
+        buttonText: 'Start Quiz',
         quizUrl: `/pregnancy-quiz?dueDate=${dueDate}&trimester=${trimester}`
       };
     } else {
       return {
         emoji: '👶',
-        title: 'Let\'s Find Your Perfect Program',
+        title: 'Find Your Perfect Program',
         subtitle: 'Answer a few quick questions to get personalized recommendations',
         description: 'We\'ll ask about your recovery status, goals, and preferences to match you with the right postpartum programs.',
         features: [

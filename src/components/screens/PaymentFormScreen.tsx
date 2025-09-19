@@ -69,10 +69,10 @@ export function PaymentFormScreen({ stage, planType, email }: PaymentFormScreenP
 
   const paymentMethods = [
     {
-      id: 'card',
-      name: 'Credit or Debit Card',
-      icon: '💳',
-      description: 'Visa, Mastercard, American Express'
+      id: 'stripe-link',
+      name: 'Stripe Link',
+      icon: '🔗',
+      description: 'Pay with Link by Stripe'
     },
     {
       id: 'apple-pay',
@@ -87,23 +87,11 @@ export function PaymentFormScreen({ stage, planType, email }: PaymentFormScreenP
       description: 'Quick and secure payment'
     },
     {
-      id: 'paypal',
-      name: 'PayPal',
-      icon: '🅿️',
-      description: 'Pay with your PayPal account'
+      id: 'card',
+      name: 'Credit or Debit Card',
+      icon: '💳',
+      description: 'Visa, Mastercard, American Express'
     },
-    {
-      id: 'venmo',
-      name: 'Venmo',
-      icon: '💙',
-      description: 'Pay with your Venmo balance'
-    },
-    {
-      id: 'klarna',
-      name: 'Klarna',
-      icon: '🌸',
-      description: 'Pay in 4 interest-free installments'
-    }
   ];
 
   const handlePaymentMethodSelect = (methodId: string) => {

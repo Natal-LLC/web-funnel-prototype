@@ -114,7 +114,7 @@ export function PregnancyDueDateScreen() {
         </div>
         
         {/* Date Picker */}
-        <div className="flex-1 px-4 pb-4 flex items-center justify-center">
+        <div className="flex-1 px-4 pb-4 pt-2">
           <MobileCard className="w-full">
             <div className="text-center">
               <h2 className="text-lg font-semibold mb-4">Select Your Due Date</h2>

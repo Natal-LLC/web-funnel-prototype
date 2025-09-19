@@ -2,6 +2,7 @@
 
 import { MobileLayout, MobileCard, MobileButton } from '@/components/ui/MobileLayout';
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 interface QuizAnswers {
   // Main mapping questions
@@ -29,6 +30,9 @@ interface QuizAnswers {
 }
 
 export function PostpartumQuizScreen() {
+  const searchParams = useSearchParams();
+  const deliveryDate = searchParams.get('deliveryDate') || '';
+  
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [answers, setAnswers] = useState<QuizAnswers>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -46,20 +50,31 @@ export function PostpartumQuizScreen() {
         { value: 'c-section', label: 'C-Section' }
       ]
     },
-    // Question 2: Recovery Status
+    // Question 2: C-section Pooch (only if C-section or VBAC)
     {
       id: 2,
+      title: 'Do you notice a shelf / pooch / pouch above your C-Section scar?',
+      type: 'single-select',
+      options: [
+        { value: 'yes', label: 'Yes' },
+        { value: 'no', label: 'No' }
+      ],
+      condition: () => answers.deliveryType === 'c-section' || answers.deliveryType === 'vbac'
+    },
+    // Question 3: Recovery Status
+    {
+      id: 3,
       title: 'Have you already completed a formal recovery protocol since your most recent birth?',
       type: 'single-select',
       options: [
         { value: 'no', label: 'No' },
-        { value: 'idk', label: "I don&apos;t know" },
+        { value: 'idk', label: "I don't know" },
         { value: 'yes', label: 'Yes' }
       ]
     },
-    // Question 3: Program Style (only if recovered = yes)
+    // Question 4: Program Style (only if recovered = yes)
     {
-      id: 3,
+      id: 4,
       title: 'Which of the following best describes your preferred program style?',
       type: 'single-select',
       options: [
@@ -70,9 +85,9 @@ export function PostpartumQuizScreen() {
       ],
       condition: () => answers.recovered === 'yes'
     },
-    // Question 4: Nutrition
+    // Question 5: Nutrition
     {
-      id: 4,
+      id: 5,
       title: 'Would you like additional guidance and support with your nutrition?',
       type: 'single-select',
       options: [
@@ -80,9 +95,9 @@ export function PostpartumQuizScreen() {
         { value: 'no', label: 'No, thank you!' }
       ]
     },
-    // Question 5: Meal Plan (only if nutrition = yes)
+    // Question 6: Meal Plan (only if nutrition = yes)
     {
-      id: 5,
+      id: 6,
       title: 'What type of nutritional guidance do you prefer?',
       type: 'single-select',
       options: [
@@ -91,9 +106,9 @@ export function PostpartumQuizScreen() {
       ],
       condition: () => answers.nutrition === 'yes'
     },
-    // Question 6: Diastasis
+    // Question 7: Diastasis
     {
-      id: 6,
+      id: 7,
       title: 'Do you suffer from diastasis (i.e. ab separation)?',
       type: 'single-select',
       options: [
@@ -102,9 +117,9 @@ export function PostpartumQuizScreen() {
         { value: 'idk', label: "I don't know" }
       ]
     },
-    // Question 7: Leaking
+    // Question 8: Leaking
     {
-      id: 7,
+      id: 8,
       title: 'Do you experience leaking?',
       type: 'single-select',
       options: [
@@ -113,9 +128,9 @@ export function PostpartumQuizScreen() {
         { value: 'idk', label: "I don't know" }
       ]
     },
-    // Question 8: Pelvic Floor Strength
+    // Question 9: Pelvic Floor Strength
     {
-      id: 8,
+      id: 9,
       title: 'How would you describe your pelvic floor strength?',
       type: 'single-select',
       options: [
@@ -124,9 +139,9 @@ export function PostpartumQuizScreen() {
         { value: 'too-strong', label: 'Too strong' }
       ]
     },
-    // Question 9: Core Strength
+    // Question 10: Core Strength
     {
-      id: 9,
+      id: 10,
       title: 'How would you describe your core strength?',
       type: 'single-select',
       options: [
@@ -134,9 +149,9 @@ export function PostpartumQuizScreen() {
         { value: 'bad', label: 'Bad' }
       ]
     },
-    // Question 10: Pain Areas
+    // Question 11: Pain Areas
     {
-      id: 10,
+      id: 11,
       title: 'Do you suffer from pain in the following areas?',
       type: 'multi-select',
       options: [
@@ -150,9 +165,9 @@ export function PostpartumQuizScreen() {
         { value: 'None of the Above', label: 'None of the Above' }
       ]
     },
-    // Question 11: Prolapse
+    // Question 12: Prolapse
     {
-      id: 11,
+      id: 12,
       title: 'Do you suffer from prolapse?',
       type: 'single-select',
       options: [
@@ -161,9 +176,9 @@ export function PostpartumQuizScreen() {
         { value: 'idk', label: "I don't know" }
       ]
     },
-    // Question 12: Posture
+    // Question 13: Posture
     {
-      id: 12,
+      id: 13,
       title: 'How would you describe your posture?',
       type: 'single-select',
       options: [
@@ -174,34 +189,25 @@ export function PostpartumQuizScreen() {
         { value: 'perfect', label: 'Perfect' }
       ]
     },
-    // Question 13: Pooch (only if C-section)
-    {
-      id: 13,
-      title: 'Do you notice a shelf / pooch / pouch above your C-Section scar?',
-      type: 'single-select',
-      options: [
-        { value: 'yes', label: 'Yes' },
-        { value: 'no', label: 'No' }
-      ],
-      condition: () => answers.deliveryType === 'c-section'
-    },
     // Question 14: Coaching
     {
       id: 14,
-      title: 'What kind of guidance do you prefer?',
+      title: 'What type of coaching do you prefer?',
       type: 'single-select',
       options: [
-        { value: 'left-alone', label: 'I prefer to be left alone' },
-        { value: 'expert-guidance', label: 'I prefer expert guidance' }
+        { value: 'left-alone', label: 'Private Coaching' },
+        { value: 'expert-guidance', label: 'Group Coaching' },
+        { value: 'no-guidance', label: 'I do not need coaching' },
       ]
     },
     // Question 15: Motivation
     {
       id: 15,
-      title: 'What motivation style works for you?',
+      title: 'What type of motivation style works best for you?',
       type: 'single-select',
       options: [
-        { value: 'challenges-prizes', label: 'Challenges / Prizes / Community' },
+        { value: 'challenges-prizes', label: 'Prizes and Rewards' },
+        { value: 'public-recognition', label: 'Public Recognition' },
         { value: 'self-starter', label: "I'm a self starter" }
       ]
     },
@@ -237,17 +243,18 @@ export function PostpartumQuizScreen() {
       // Single select - update the appropriate field and auto-advance
       const fieldMap: { [key: number]: keyof QuizAnswers } = {
         1: 'deliveryType',
-        2: 'recovered',
-        3: 'programStyle',
-        4: 'nutrition',
-        5: 'mealPlan',
-        6: 'diastasis',
-        7: 'leaking',
-        8: 'pelvicFloorStrength',
-        9: 'coreStrength',
-        11: 'prolapse',
-        12: 'posture',
-        13: 'pooch',
+        2: 'pooch',
+        3: 'recovered',
+        4: 'programStyle',
+        5: 'nutrition',
+        6: 'mealPlan',
+        7: 'diastasis',
+        8: 'leaking',
+        9: 'pelvicFloorStrength',
+        10: 'coreStrength',
+        11: 'painAreas',
+        12: 'prolapse',
+        13: 'posture',
         14: 'coaching',
         15: 'motivation',
         16: 'community',
@@ -282,7 +289,7 @@ export function PostpartumQuizScreen() {
     } else if (currentQuestionData?.type === 'multi-select') {
       // Multi select - handle "none of the above" logic
       const fieldMap: { [key: number]: keyof QuizAnswers } = {
-        10: 'painAreas'
+        11: 'painAreas'
       };
       
       const field = fieldMap[currentQuestionData.id];
@@ -317,17 +324,18 @@ export function PostpartumQuizScreen() {
     if (currentQuestionData.type === 'single-select') {
       const fieldMap: { [key: number]: keyof QuizAnswers } = {
         1: 'deliveryType',
-        2: 'recovered',
-        3: 'programStyle',
-        4: 'nutrition',
-        5: 'mealPlan',
-        6: 'diastasis',
-        7: 'leaking',
-        8: 'pelvicFloorStrength',
-        9: 'coreStrength',
-        11: 'prolapse',
-        12: 'posture',
-        13: 'pooch',
+        2: 'pooch',
+        3: 'recovered',
+        4: 'programStyle',
+        5: 'nutrition',
+        6: 'mealPlan',
+        7: 'diastasis',
+        8: 'leaking',
+        9: 'pelvicFloorStrength',
+        10: 'coreStrength',
+        11: 'painAreas',
+        12: 'prolapse',
+        13: 'posture',
         14: 'coaching',
         15: 'motivation',
         16: 'community',
@@ -338,7 +346,7 @@ export function PostpartumQuizScreen() {
       return field ? !!answers[field] : false;
     } else if (currentQuestionData.type === 'multi-select') {
       const fieldMap: { [key: number]: keyof QuizAnswers } = {
-        10: 'painAreas'
+        11: 'painAreas'
       };
       
       const field = fieldMap[currentQuestionData.id];
@@ -349,35 +357,59 @@ export function PostpartumQuizScreen() {
     return false;
   };
 
+  // Helper function to calculate weeks postpartum
+  const getWeeksPostpartum = () => {
+    if (!deliveryDate) return null;
+    
+    const delivery = new Date(deliveryDate);
+    const today = new Date();
+    const diffTime = today.getTime() - delivery.getTime();
+    const diffWeeks = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 7));
+    
+    return diffWeeks;
+  };
+
   // Program mapping logic
   const getRecommendedPrograms = () => {
     const programs: string[] = [];
+    const weeksPostpartum = getWeeksPostpartum();
 
-    // Main program mapping logic
+    // 1. FITNESS PROGRAMS (Priority 1 - Always first)
     if (answers.recovered === 'no' || answers.recovered === 'idk') {
-      // Maps to ABRX (Ab Recovery)
-      programs.push('abrx');
+      // User has not formally completed recovery from pregnancy
+      programs.push('ab-rehab');
     } else if (answers.recovered === 'yes') {
-      // BS vs ABRX+ mapping
+      // User has recovered from pregnancy
       if (answers.programStyle === 'quick-simple' || answers.programStyle === 'fun-follow') {
-        programs.push('bs'); // Body Strong
+        programs.push('bod-squad');
       } else if (answers.programStyle === 'step-by-step' || answers.programStyle === 'extra-support') {
-        programs.push('abrx-plus'); // Ab Recovery Plus
+        programs.push('ab-rehab-plus');
       }
     }
 
-    // Prolapse mapping
+    // 2. NUTRITION PROGRAMS (Priority 2 - If interested)
+    if (answers.nutrition === 'yes') {
+      if (answers.mealPlan === 'full-detailed') {
+        programs.push('30-day-slim-down');
+      } else if (answers.mealPlan === 'grab-go') {
+        programs.push('easy-eats');
+      }
+    }
+
+    // 3. SYMPTOMATIC PROGRAMS (Priority 3 - Last)
+    // Early postpartum plan (if fewer than 6 weeks postpartum)
+    if (weeksPostpartum !== null && weeksPostpartum < 6) {
+      programs.push('early-postpartum');
+    }
+
+    // Prolapse program (if they have prolapse)
     if (answers.prolapse === 'yes') {
       programs.push('prolapse');
     }
 
-    // Nutrition mapping
-    if (answers.nutrition === 'yes') {
-      if (answers.mealPlan === 'full-detailed') {
-        programs.push('slim-down');
-      } else if (answers.mealPlan === 'grab-go') {
-        programs.push('easy-eats');
-      }
+    // C-section program (if they had C-section or VBAC)
+    if (answers.deliveryType === 'c-section' || answers.deliveryType === 'vbac') {
+      programs.push('c-section-recovery');
     }
 
     return programs;
@@ -406,17 +438,18 @@ export function PostpartumQuizScreen() {
     if (currentQuestionData?.type === 'single-select') {
       const fieldMap: { [key: number]: keyof QuizAnswers } = {
         1: 'deliveryType',
-        2: 'recovered',
-        3: 'programStyle',
-        4: 'nutrition',
-        5: 'mealPlan',
-        6: 'diastasis',
-        7: 'leaking',
-        8: 'pelvicFloorStrength',
-        9: 'coreStrength',
-        11: 'prolapse',
-        12: 'posture',
-        13: 'pooch',
+        2: 'pooch',
+        3: 'recovered',
+        4: 'programStyle',
+        5: 'nutrition',
+        6: 'mealPlan',
+        7: 'diastasis',
+        8: 'leaking',
+        9: 'pelvicFloorStrength',
+        10: 'coreStrength',
+        11: 'painAreas',
+        12: 'prolapse',
+        13: 'posture',
         14: 'coaching',
         15: 'motivation',
         16: 'community',
@@ -427,7 +460,7 @@ export function PostpartumQuizScreen() {
       return field ? answers[field] === optionValue : false;
     } else if (currentQuestionData?.type === 'multi-select') {
       const fieldMap: { [key: number]: keyof QuizAnswers } = {
-        10: 'painAreas'
+        11: 'painAreas'
       };
       
       const field = fieldMap[currentQuestionData.id];
@@ -456,8 +489,8 @@ export function PostpartumQuizScreen() {
         </div>
 
         {/* Question */}
-        <div className="flex-1 px-4 pb-4 overflow-y-auto">
-          <MobileCard className="h-full">
+        <div className="flex-1 px-4 pb-4">
+          <MobileCard className="min-h-full">
             <div className="p-4">
               {currentQuestionData && (
                 <div className="space-y-4">
@@ -519,3 +552,4 @@ export function PostpartumQuizScreen() {
     </MobileLayout>
   );
 }
+

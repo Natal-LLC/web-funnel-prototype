@@ -13,6 +13,15 @@ interface PaywallScreenProps {
 
 export function PaywallScreen({ stage, email }: PaywallScreenProps) {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<string>('');
+
+  const handlePlanSelect = (plan: string) => {
+    setSelectedPlan(plan);
+    // Auto-navigate to payment screen after a short delay
+    setTimeout(() => {
+      window.location.href = `/payment?stage=${stage}&plan=${plan}${email ? `&email=${encodeURIComponent(email)}` : ''}`;
+    }, 500);
+  };
   const getStagePricing = () => {
     // All stages now have the same pricing structure
     return {
@@ -82,13 +91,13 @@ export function PaywallScreen({ stage, email }: PaywallScreenProps) {
                 <div className="text-sm text-muted-foreground mb-1">per year</div>
                 <div className="text-sm font-semibold text-green-600 mb-2">Save ${pricing.annualSavings} (50% off!)</div>
                 <div className="text-xs text-muted-foreground line-through mb-3">Regular: ${pricing.regularAnnual}</div>
-                <MobileButton 
-                  size="lg"
-                  onClick={() => window.location.href = `/payment?stage=${stage}&plan=annual${email ? `&email=${encodeURIComponent(email)}` : ''}`}
-                  className="w-full"
-                >
-                  Choose Annual
-                </MobileButton>
+                    <MobileButton
+                      size="lg"
+                      onClick={() => handlePlanSelect('annual')}
+                      className={`w-full ${selectedPlan === 'annual' ? 'bg-primary text-primary-foreground' : ''}`}
+                    >
+                      {selectedPlan === 'annual' ? 'Selected' : 'Choose Annual'}
+                    </MobileButton>
               </div>
             </MobileCard>
 
@@ -100,13 +109,13 @@ export function PaywallScreen({ stage, email }: PaywallScreenProps) {
                 <div className="text-sm text-muted-foreground mb-1">every 3 months</div>
                 <div className="text-sm font-semibold text-green-600 mb-2">Save ${pricing.quarterlySavings} (25% off!)</div>
                 <div className="text-xs text-muted-foreground line-through mb-3">Regular: ${pricing.regularQuarterly}</div>
-                <MobileButton 
-                  size="lg"
-                  onClick={() => window.location.href = `/payment?stage=${stage}&plan=quarterly${email ? `&email=${encodeURIComponent(email)}` : ''}`}
-                  className="w-full"
-                >
-                  Choose Quarterly
-                </MobileButton>
+                    <MobileButton
+                      size="lg"
+                      onClick={() => handlePlanSelect('quarterly')}
+                      className={`w-full ${selectedPlan === 'quarterly' ? 'bg-primary text-primary-foreground' : ''}`}
+                    >
+                      {selectedPlan === 'quarterly' ? 'Selected' : 'Choose Quarterly'}
+                    </MobileButton>
               </div>
             </MobileCard>
 
@@ -116,14 +125,14 @@ export function PaywallScreen({ stage, email }: PaywallScreenProps) {
                 <h3 className="text-lg font-semibold mb-1">Monthly</h3>
                 <div className="text-2xl font-bold text-foreground mb-1">${pricing.monthly}</div>
                 <div className="text-sm text-muted-foreground mb-3">per month</div>
-                <MobileButton 
-                  size="lg"
-                  variant="outline"
-                  onClick={() => window.location.href = `/payment?stage=${stage}&plan=monthly${email ? `&email=${encodeURIComponent(email)}` : ''}`}
-                  className="w-full"
-                >
-                  Choose Monthly
-                </MobileButton>
+                    <MobileButton
+                      size="lg"
+                      variant="outline"
+                      onClick={() => handlePlanSelect('monthly')}
+                      className={`w-full ${selectedPlan === 'monthly' ? 'bg-primary text-primary-foreground' : ''}`}
+                    >
+                      {selectedPlan === 'monthly' ? 'Selected' : 'Choose Monthly'}
+                    </MobileButton>
               </div>
             </MobileCard>
           </div>
